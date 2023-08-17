@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body onscroll="showCount()">
+    <section>
+      <p class="n_count">Normal Count</p>
+      <p class="t_count">Trottling Count</p>
+      <p class="d_count">Debounce Count</p>
+      <input type="text" name="date" id="date" oninput="handleChange()" />
+    </section>
+    <script>
+      const normal_div = document.querySelector(".n_count");
+      const trottle_div = document.querySelector(".t_count");
+      const debounce_div = document.querySelector(".d_count");
+      //   normal count
+      let n_cnt = 0;
+      const normalCount = () => {
+        n_cnt++;
+        normal_div.innerHTML = `Normal Count: ${n_cnt}`;
+      };
+
+      //   trottle count
+      let t_cnt = 0;
+      let isScrolling = true;
+      const trottleCount = () => {
+        if (isScrolling === true) {
+          t_cnt++;
+          trottle_div.innerHTML = `Trottle Count: ${t_cnt}`;
+          isScrolling = false;
+          setTimeout(() => {
+            isScrolling = true;
+          }, 1000);
+        }
+      };
+
+      //   debounce count
+      let d_cnt = 0;
+      let interval;
+      const debounceCount = () => {
+        clearTimeout(interval);
+
+        interval = setTimeout(() => {
+          d_cnt++;
+          debounce_div.innerHTML = `Debounce Count :${d_cnt}`;
+        }, 1000);
+      };
+      const showCount = () => {
+        normalCount();
+        trottleCount();
+        debounceCount();
+      };
+
+      let handleChange = () => {
+        handleChangeD();
+        handleChangeT();
+        handleChangeN();
+      };
+      //   debouncing
+      let interval1;
+
+      let handleChangeD = () => {
+        clearTimeout(interval1);
+
+        interval1 = setTimeout(() => {
+          let date1 = document.querySelector("#date").value;
+          console.log(`Debounce  : ${date1}`);
+        }, 1000);
+      };
+
+      //   trotting
+      let isChanges = true;
+      let handleChangeT = () => {
+        if (isChanges === true) {
+          let date1 = document.querySelector("#date").value;
+          console.log(`Trottle  : ${date1}`);
+          isChanges = false;
+          setTimeout(() => {
+            isChanges = true;
+          }, 1000);
+        }
+      };
+      //   normal;
+      let handleChangeN = () => {
+        let date1 = document.querySelector("#date").value;
+        console.log(`Normal  : ${date1}`);
+      };
+    </script>
+  </body>
+</html>
